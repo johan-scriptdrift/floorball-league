@@ -22,11 +22,11 @@ const gameSchema = new mongoose.Schema({
 	UpdatedAt: String
 })
 
-const Game = mongoose.model<Game>('games', gameSchema)
+const GameModel = mongoose.model<Game>('games', gameSchema)
 
 router.get('/', async (req: Request, res: Response) => {
 	try {
-		const games = await Game.find()
+		const games = await GameModel.find()
 		res.json(games)
 	} catch (error) {
 		const errorMessage =
@@ -39,7 +39,7 @@ router.get('/', async (req: Request, res: Response) => {
 
 router.get('/:id', async (req: Request, res: Response) => {
 	try {
-		const game = await Game.findOne({
+		const game = await GameModel.findOne({
 			GameID: parseInt(req.params.id)
 		})
 		if (game) {

@@ -6,11 +6,11 @@ import { Team } from '../types/team.js'
 
 const router = express.Router()
 
-const Game = mongoose.model<Game>('games')
+const GameModel = mongoose.model<Game>('games')
 
 router.get('/', async (req: Request, res: Response) => {
 	try {
-		const games = await Game.find(
+		const games = await GameModel.find(
 			{},
 			{
 				UpdatedAt: 1,

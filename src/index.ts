@@ -1,9 +1,10 @@
-import express, { Request, Response } from 'express'
+import express from 'express'
 import mongoose from 'mongoose'
-import * as dotenv from 'dotenv'
+import dotenv from 'dotenv'
 import cors from 'cors'
 import gameRoutes from './routes/games.js'
 import tableRoutes from './routes/table.js'
+import playerRoutes from './routes/players.js'
 
 dotenv.config()
 
@@ -35,6 +36,7 @@ app.use(express.json())
 app.use('/api/games', gameRoutes)
 
 app.use('/api/table', tableRoutes)
+app.use('/api/players', playerRoutes)
 
 app.listen(PORT, () => {
 	console.log(`Server is running on port ${PORT}`)

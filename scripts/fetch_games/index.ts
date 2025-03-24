@@ -26,6 +26,14 @@ interface GameData {
 	ArenaName: string
 }
 
+interface PlayerData {
+	JerseyNumber: number
+	Name: string
+	TeamID: number
+	TeamName: string
+	Goals: number
+}
+
 const gameSchema = new mongoose.Schema({
 	GameID: { type: Number, required: true, unique: true },
 	GameStatusID: { type: Number, required: true },
@@ -82,7 +90,7 @@ async function fetchGames(
 				`${BASE_URL}?leagueid=${LEAGUE_ID}&lastgameid=${lastGameId}`,
 				{
 					headers: {
-						Authorization: AUTH_TOKEN,
+						Authorization: `Bearer ${AUTH_TOKEN}`,
 						Accept: 'application/json',
 						'X-Platform': '2',
 						'X-Requested-With': 'XMLHttpRequest',
@@ -106,7 +114,6 @@ async function fetchGames(
 					break
 				}
 
-				lastGameId += 10
 				await new Promise((resolve) => setTimeout(resolve, 1000))
 				continue
 			}
@@ -172,6 +179,10 @@ async function saveGames(games: GameData[]) {
 	let errors = 0
 
 	for (const gameData of games) {
+		if (gameData.GameID === 414482) {
+			gameData.AwayTeamScore = '5'
+			gameData.HomeTeamScore = '2'
+		}
 		try {
 			await Game.findOneAndUpdate(
 				{ GameID: gameData.GameID },
